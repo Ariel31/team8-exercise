@@ -1,5 +1,16 @@
-export default function sum(a, b) {
-  return a + b;
-}
+//import { schema } from "./schema";
 
-console.log('sum(1, 2) =', sum(1, 2));
+import * as express from 'express';
+import { graphqlHTTP } from 'express-graphql';
+import schema from './schema';
+
+const app = express();
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: schema,
+    graphiql: true,
+  }),
+);
+app.listen(4000);
+console.log('Running a GraphQL API server at http://localhost:4000/graphql');
