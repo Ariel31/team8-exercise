@@ -5,6 +5,6 @@ export type RepositoriesQuery = {
   repos: [Repository];
 };
 
-export const rootResolver = {
+/* export const rootResolver = {
   repos: (owner: string) => getAllRepositories(owner)
-};
+}; */
