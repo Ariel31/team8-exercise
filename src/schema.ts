@@ -1,34 +1,17 @@
 const graphql = require("graphql");
-//import { getUsersRepositories } from "./src/services/git-api-service";
-import { getUsersRepositories } from "./services/git-api-service";
-import { getAllRepositories } from "./repository/resolver";
-import {} from "./repository/query";
+import {
+  getAllRepositories,
+  getRepositoriesDetails
+} from "./repository/resolver";
+import { RepositoryType } from "./repository/type-defs/repository.type";
+import { RepoDetailsType } from "./repository/type-defs/repository-details.type";
 
 const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLSchema,
-  GraphQLID,
-  GraphQLInt,
-  GraphQLList,
-  GraphQLNonNull
+  GraphQLList
 } = graphql;
-
-const RepositoryType = new GraphQLObjectType({
-  name: "name",
-  fields: () => ({
-    name: { type: GraphQLString },
-    size: { type: GraphQLInt },
-    owner: { type: GraphQLString }
-  })
-});
-
-/* const repoQueries = {
-  name: "name",
-  repositories: {
-    type: new GraphQLList(RepositoryType)
-  }
-}; */
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -38,6 +21,16 @@ const RootQuery = new GraphQLObjectType({
       args: { owner: { type: GraphQLString } },
       async resolve(parent, args) {
         return getAllRepositories(args.owner);
+      }
+    },
+    repoDetails: {
+      type: new GraphQLList(RepoDetailsType),
+      args: {
+        owner: { type: GraphQLString },
+        names: { type: new GraphQLList(GraphQLString) }
+      },
+      async resolve(parent, args) {
+        return getRepositoriesDetails(args.owner, args.names);
       }
     }
   }
