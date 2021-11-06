@@ -1,7 +1,5 @@
-//import { schema } from "./schema";
-
 import * as express from "express";
-import { graphqlHTTP } from "express-graphql";
+const { graphqlHTTP } = require("express-graphql");
 import schema from "./schema";
 
 const app = express();
